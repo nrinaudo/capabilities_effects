@@ -1,0 +1,2806 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>Effects as Capabilities</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    </head>
+    <body>
+        <textarea id="source">
+class: center, middle
+
+# Effects as Capabilities
+
+[Nicolas Rinaudo] • [@NicolasRinaudo@functional.cafe]
+
+---
+
+class: center, middle
+name: direct
+
+# Direct Style
+
+---
+
+## Definition
+
+> A direct style of programming is one in which control is passed implicitly from one line of code to the next, and is opposed to continuation passing style (or, equivalently, monadic style), where it’s made explicit by a continuation.
+
+---
+
+## Definition
+
+> A direct style of programming is one in which you can write code without faffing about with monads.
+
+---
+
+## User input
+
+```scala
+def readInput: Option[Int] =
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## User input
+
+```scala
+def readInput: `Option[Int]` =
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## User input
+
+.diff-add[
+```scala
+def readInput: Option[Int] =
+* `readLine`
+&#x200B;
+&#x200B;
+```
+]
+
+
+---
+
+## User input
+
+.diff-add[
+```scala
+def readInput: Option[Int] =
+* readLine`.toInt`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## User input
+
+.diff-add[
+```scala
+def readInput: Option[Int] =
+* `try Some(`readLine.toInt`)`
+* `catch`
+*   `case _ => None`
+```
+]
+
+---
+
+## Single guess
+
+```scala
+def guess(target: Int): Boolean =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Single guess
+
+```scala
+def guess(`target: Int`): Boolean =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Single guess
+
+```scala
+def guess(target: Int): `Boolean` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+* `readInput`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+* readInput `match`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+*   `case Some(‛target‛) =>`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+* readInput match
+*   case Some(‛target‛) => `true`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+*   `case Some(input) =>`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+*     `if input < target then println("Too low")`
+*     `else                   println("Too high")`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+*     `false`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+*   `case None =>`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+*     `println("Not a valid number")`
+&#x200B;
+```
+]
+
+---
+
+## Single guess
+
+.diff-add[
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+*     `false`
+```
+]
+
+---
+
+## Looping on guesses
+
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Looping on guesses
+
+```scala
+def loop(`target: Int`, remaining: Int): Boolean =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Looping on guesses
+
+```scala
+def loop(target: Int, `remaining: Int`): Boolean =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Looping on guesses
+
+```scala
+def loop(target: Int, remaining: Int): `Boolean` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+* `if guess(target) then`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+*   `println("Congratulations!")`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+*   `true`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+* `else if remaining < 0 then`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+*   `println("🫵😂")`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+*   `false`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+* `else`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+*   `if remaining == 0 then println("Last attempt")`
+*   `else                   println(s"$remaining tries left")`
+&#x200B;
+```
+]
+
+---
+
+## Looping on guesses
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+*   `loop(target, remaining - 1)`
+```
+]
+
+---
+
+## Running the game
+
+```scala
+def run: Boolean =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Running the game
+
+```scala
+def run: `Boolean` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Running the game
+
+.diff-add[
+```scala
+def run: Boolean =
+* `val target = nextInt(10)`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Running the game
+
+.diff-add[
+```scala
+def run: Boolean =
+  val target = nextInt(10)
+&#x200B;
+* `println("Input a value between 0 and 10:")`
+&#x200B;
+```
+]
+
+---
+
+## Running the game
+
+.diff-add[
+```scala
+def run: Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+* `loop(target, 2)`
+```
+]
+
+---
+
+## Running the game
+
+```scala
+def run: Boolean =
+  val target = `nextInt(10)`
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Monads
+
+```scala
+def run: Boolean =
+  ???
+```
+
+---
+
+## Monads
+
+.diff-rm[
+```scala
+*def run: `Boolean` =
+  ???
+```
+]
+
+---
+
+## Monads
+
+.diff-add[
+```scala
+*def run: `RandT[PrintT[Read[Boolean]]]` =
+  ???
+```
+]
+
+---
+
+## Monads
+
+.diff-rm[
+```scala
+*def run: `RandT[PrintT[Read[Boolean]]]` =
+  ???
+```
+]
+
+---
+
+## Monads
+
+.diff-add[
+```scala
+*def run: `ZIO[Any, Nothing, Boolean]` =
+  ???
+```
+]
+
+---
+
+## Monads
+
+.diff-rm[
+```scala
+*def run: `ZIO[Any, Nothing, Boolean]` =
+  ???
+```
+]
+
+---
+
+## Monads
+
+.diff-add[
+```scala
+*def run[`F[_]: Monad]`: `F[Boolean]` =
+  ???
+```
+]
+
+
+---
+
+## Monads
+
+.diff-add[
+```scala
+*def run[F[_]: Monad`: Rand: Print: Read`]: F[Boolean] =
+  ???
+```
+]
+
+---
+
+## Monads
+
+```scala
+val a: Int
+val b: Int
+
+a + b
+```
+
+---
+
+## Monads
+
+```scala
+val oa: Option[Int]
+val ob: Option[Int]
+
+oa.flatMap: a =>
+  ob.map: fb =>
+    a + b
+```
+
+---
+
+## Monads
+
+```scala
+def traverse[F[_]: Traverse, G[_]: Applicative, A, B]
+  (fa: F[A])(f: A => G[B]): G[F[B]] = ???
+
+def traverseM[F[_]: Monad, G[_]: Applicative, A, B]
+  (fa: F[A])(f: A => G[F[B]]): G[F[B]] = ???
+  
+ ```
+
+
+---
+
+## Capabilities
+
+.diff-rm[
+```scala
+*def run[`F[_]: Rand: Print: Read]: F[Boolean]` =
+  ???
+```
+]
+
+---
+
+## Capabilities
+
+.diff-add[
+```scala
+*def run: `Boolean` =
+  ???
+```
+]
+
+
+---
+
+## Capabilities
+
+.diff-add[
+```scala
+*def run: `(Rand, Print, Read) =>` Boolean =
+  ???
+```
+]
+
+---
+
+## Capabilities
+
+.diff-rm[
+```scala
+*def run: (Rand, Print, Read) `=>` Boolean =
+  ???
+```
+]
+
+---
+
+## Capabilities
+
+.diff-add[
+```scala
+*def run: (Rand, Print, Read) `?=>` Boolean =
+  ???
+```
+]
+
+---
+
+## Key takeaways
+
+--
+
+* We want to track effects in types
+
+--
+
+* Monads are a practical solution, with some drawbacks
+
+--
+
+* Capabilities might be another, without these drawbacks
+
+---
+
+## Key takeaways
+
+* We want to track effects in types
+
+* Monads are a practical solution, with some drawbacks
+
+* Capabilities might be another, without these drawbacks (but maybe others)
+
+
+---
+
+class: center, middle
+name: rand
+
+# Random Numbers
+
+---
+
+## The `Rand` Capability
+
+```scala
+def run: Boolean =
+  val target = `nextInt(10)`
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## The `Rand` Capability
+
+```scala
+package rand
+&#x200B;
+trait Rand:
+&#x200B;
+```
+
+---
+
+## The `Rand` Capability
+
+.diff-add[
+```scala
+package rand
+&#x200B;
+trait Rand:
+* `def nextInt(max: Int): Int`
+```
+]
+
+---
+
+## The `Rand` Capability
+
+```scala
+package rand
+&#x200B;
+trait Rand:
+  def nextInt(`max: Int`): Int
+```
+
+---
+
+## The `Rand` Capability
+
+```scala
+package rand
+&#x200B;
+trait Rand:
+  def nextInt(max: Int): `Int`
+```
+
+---
+
+## The `Rand` Capability
+
+```scala
+def run: Boolean = 
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## The `Rand` Capability
+
+.diff-add[
+```scala
+*def run: `Rand ?=>` Boolean = 
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## The `Rand` Capability
+
+.diff-add[
+```scala
+*def run: Rand ?=> Boolean = `r ?=>`
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## The `Rand` Capability
+
+.diff-add[
+```scala
+def run: Rand ?=> Boolean = r ?=>
+* val target = `r.`nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## The `Rand` Capability
+
+```scala
+def run: Rand ?=> Boolean = `r ?=>`
+  val target = `r.`nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## The `Rand` Capability
+
+```scala
+def run: Rand ?=> Boolean = r ?=>
+  val target = `r.`nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Atomic effectful computations
+
+```scala
+def nextInt(max: Int): Rand ?=> Int =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Atomic effectful computations
+
+```scala
+def nextInt(max: Int): `Rand ?=> Int` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Atomic effectful computations
+
+.diff-add[
+```scala
+def nextInt(max: Int): Rand ?=> Int =
+* `r ?=> r.nextInt(max)`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Atomic effectful computations
+
+.diff-add[
+```scala
+def nextInt(max: Int): Rand ?=> Int =
+  r ?=> r.nextInt(max)
+&#x200B;
+*&#x200B;`def range(min: Int, max: Int): Rand ?=> Int =`
+* `nextInt(max - min) + min`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Atomic effectful computations
+
+.diff-add[
+```scala
+def nextInt(max: Int): Rand ?=> Int =
+  r ?=> r.nextInt(max)
+&#x200B;
+def range(min: Int, max: Int): Rand ?=> Int =
+  nextInt(max - min) + min
+&#x200B;
+*&#x200B;`val lowerChar: Rand ?=> Char =`
+* `range('a'.toInt, 'z'.toInt).toChar`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+
+---
+
+## Atomic effectful computations
+
+.diff-add[
+```scala
+def nextInt(max: Int): Rand ?=> Int =
+  r ?=> r.nextInt(max)
+&#x200B;
+def range(min: Int, max: Int): Rand ?=> Int =
+  nextInt(max - min) + min
+&#x200B;
+val lowerChar: Rand ?=> Char =
+  range('a'.toInt, 'z'.toInt).toChar
+&#x200B;
+*&#x200B;`val upperChar: Rand ?=> Char =`
+* `range('A'.toInt, 'Z'.toInt).toChar`
+```
+]
+
+
+---
+
+## Atomic effectful computations
+
+.diff-rm[
+```scala
+def run: Rand ?=> Boolean = r ?=>
+* val target = `r.`nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## Atomic effectful computations
+
+```scala
+def run: Rand ?=> Boolean = r ?=>
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Atomic effectful computations
+
+```scala
+def run: Rand ?=> Boolean = r ?=>
+  val target = `nextInt(10)`
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Atomic effectful computations
+
+```scala
+def run: Rand ?=> Boolean = r ?=>
+  val `target` = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Atomic effectful computations
+
+```scala
+def run: Rand ?=> Boolean = r ?=>
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(`target`, 2)
+```
+
+---
+
+## Eagerness of Context Functions
+
+```scala
+def run: Rand ?=> Boolean = r ?=>
+  val target = `nextInt(10)`
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Eagerness of Context Functions
+
+.diff-add[
+```scala
+def run: Rand ?=> Boolean = r ?=>
+* val target = nextInt(10)`(using r)`
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## ACCF
+
+```scala
+def run: Rand ?=> Boolean = `r ?=>`
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## ACCF
+
+.diff-rm[
+```scala
+*def run: Rand ?=> Boolean = `r ?=>`
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## ACCF
+
+```scala
+def run: Rand ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## ACCF
+
+```scala
+def run: Rand ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  `loop(target, 2)`
+```
+
+---
+
+## ACCF
+
+```scala
+def run: `Rand ?=> Boolean` =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## ACCF
+
+.diff-add[
+```scala
+*def run: Rand ?=> Boolean = `(r: Rand) ?=>`
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## ACCF
+
+.diff-rm[
+```scala
+*def run: Rand ?=> Boolean = `(r: Rand) ?=>`
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## ACCF
+
+```scala
+def run: Rand ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## ACCF
+
+```scala
+def run: `Rand ?=> Boolean` =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## `Rand` handler
+
+```scala
+def system[A](ra: Rand ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Rand` handler
+
+```scala
+def system[A](`ra: Rand ?=> A`): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Rand` handler
+
+```scala
+def system[A](ra: Rand ?=> A): `A` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Rand` handler
+
+.diff-add[
+```scala
+def system[A](ra: Rand ?=> A): A =
+* `val handler = new Rand:`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## `Rand` handler
+
+.diff-add[
+```scala
+def system[A](ra: Rand ?=> A): A =
+  val handler = new Rand:
+*   `val r = new scala.util.Random`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## `Rand` handler
+
+.diff-add[
+```scala
+def system[A](ra: Rand ?=> A): A =
+  val handler = new Rand:
+    val r = new scala.util.Random
+&#x200B;
+*   `override def nextInt(max: Int) =`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## `Rand` handler
+
+.diff-add[
+```scala
+def system[A](ra: Rand ?=> A): A =
+  val handler = new Rand:
+    val r = new scala.util.Random
+&#x200B;
+    override def nextInt(max: Int) =
+*     `r.nextInt(max)`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## `Rand` handler
+
+.diff-add[
+```scala
+def system[A](ra: Rand ?=> A): A =
+  val handler = new Rand:
+    val r = new scala.util.Random
+&#x200B;
+    override def nextInt(max: Int) =
+      r.nextInt(max)
+&#x200B;
+* `ra(using handler)`
+```
+]
+
+
+---
+
+## `Rand` handler
+
+```scala
+rand.system:
+  run
+```
+
+---
+
+## `Test` handler
+
+```scala
+def const[A](notRandom: Int)(ra: Rand ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Test` handler
+
+```scala
+def const[A](`notRandom: Int`)(ra: Rand ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Test` handler
+
+```scala
+def const[A](notRandom: Int)(`ra: Rand ?=> A`): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Test` handler
+
+```scala
+def const[A](notRandom: Int)(ra: Rand ?=> A): `A` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## `Test` handler
+
+.diff-add[
+```scala
+def const[A](notRandom: Int)(ra: Rand ?=> A): A =
+* `val handler = new Rand:`
+*   `override def nextInt(max: Int) =`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## `Test` handler
+
+.diff-add[
+```scala
+def const[A](notRandom: Int)(ra: Rand ?=> A): A =
+  val handler = new Rand:
+    override def nextInt(max: Int) =
+*     `notRandom`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## `Test` handler
+
+.diff-add[
+```scala
+def const[A](notRandom: Int)(ra: Rand ?=> A): A =
+  val handler = new Rand:
+    override def nextInt(max: Int) =
+      notRandom
+&#x200B;
+* `ra(using handler)`
+```
+]
+
+---
+
+## `Test` handler
+
+```scala
+rand.const(5):
+  assert(run)
+```
+
+---
+
+## Key takeaways
+
+--
+
+* Capabilities are implicit parameters
+
+--
+
+* We usually manipulate them through atomic computations
+
+--
+
+* Concrete implementations (_handlers_) decide how programs behave
+
+
+---
+
+class: center, middle
+name: print_read
+
+# User Interaction
+
+---
+
+## The `Print` Capability
+
+```scala
+def run: Rand ?=> Boolean = 
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## The `Print` Capability
+
+```scala
+def run: Rand ?=> Boolean = 
+  val target = nextInt(10)
+&#x200B;
+  `println("Input a value between 0 and 10:")`
+  loop(target, 2)
+```
+
+---
+
+## The `Print` Capability
+
+```scala
+package print
+&#x200B;
+trait Print:
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+
+---
+
+## The `Print` Capability
+
+.diff-add[
+```scala
+package print
+&#x200B;
+trait Print:
+* `def println(s: String): Unit`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## The `Print` Capability
+
+```scala
+package print
+&#x200B;
+trait Print:
+  def println(`s: String`): Unit
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## The `Print` Capability
+
+```scala
+package print
+&#x200B;
+trait Print:
+  def println(s: String): `Unit`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## The `Print` Capability
+
+.diff-add[
+```scala
+package print
+&#x200B;
+trait Print:
+  def println(s: String): Unit
+&#x200B;
+*&#x200B;`def println(a: Any): Print ?=> Unit =`
+&#x200B;
+```
+]
+
+---
+
+## The `Print` Capability
+
+```scala
+package print
+&#x200B;
+trait Print:
+  def println(s: String): Unit
+&#x200B;
+def println(`a: Any`): Print ?=> Unit =
+&#x200B;
+```
+
+---
+
+## The `Print` Capability
+
+```scala
+package print
+&#x200B;
+trait Print:
+  def println(s: String): Unit
+&#x200B;
+def println(a: Any): `Print ?=> Unit` =
+&#x200B;
+```
+
+---
+
+## The `Print` Capability
+
+.diff-add[
+```scala
+package print
+&#x200B;
+trait Print:
+  def println(s: String): Unit
+&#x200B;
+def println(a: Any): Print ?=> Unit =
+* `p ?=> p.println(a.toString)`
+```
+]
+
+---
+
+## The `Print` Capability
+
+```scala
+def run: Rand ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  `println`("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## The `Print` Capability
+
+.diff-rm[
+```scala
+*def run: `Rand` ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## The `Print` Capability
+
+.diff-add[
+```scala
+*def run: `(Rand, Print)` ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## Order of capabilities
+
+```scala
+def run: `(Rand, Print)` ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+---
+
+## Order of capabilities
+
+```scala
+def runSwapped: (Rand, Print) ?=> Boolean =
+  run
+```
+
+---
+
+## Order of capabilities
+
+.diff-rm[
+```scala
+*def runSwapped: (`Rand, Print`) ?=> Boolean =
+  run
+```
+]
+---
+
+## Order of capabilities
+
+.diff-add[
+```scala
+*def runSwapped: `(Print, Rand)` ?=> Boolean =
+  run
+```
+]
+---
+
+## Order of capabilities
+
+```scala
+def runSwapped: (Print, Rand) ?=> Boolean =
+  `run`
+```
+
+---
+
+## Order of capabilities
+
+```scala
+def runSwapped: `(Print, Rand) ?=> Boolean` =
+  run
+```
+
+---
+
+## Order of capabilities
+
+.diff-add[
+```scala
+def runSwapped: (Print, Rand) ?=> Boolean =
+* `(p: Print, r: Rand) ?=>` run
+```
+]
+
+---
+
+## Order of capabilities
+
+.diff-add[
+```scala
+def runSwapped: (Print, Rand) ?=> Boolean =
+* (p: Print, r: Rand) ?=> run`(using r, p)`
+```
+]
+
+---
+
+## Propagating the capability
+
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+
+---
+
+## Propagating the capability
+
+```scala
+def loop(target: Int, remaining: Int): Boolean =
+  if guess(target) then
+    `println`("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    `println`("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then `println`("Last attempt")
+    else                   `println`(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+
+---
+
+## Propagating the capability
+
+.diff-rm[
+```scala
+*def loop(target: Int, remaining: Int): `Boolean` =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+]
+
+---
+
+## Propagating the capability
+
+.diff-add[
+```scala
+*def loop(target: Int, remaining: Int): `Print ?=> Boolean` =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+]
+
+---
+
+## Propagating the capability
+
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+
+---
+
+## Propagating the capability
+
+```scala
+def guess(target: Int): Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then `println`("Too low")
+      else                   `println`("Too high")
+      false
+&#x200B;
+    case None =>
+      `println`("Not a valid number")
+      false
+```
+
+---
+
+## Propagating the capability
+
+.diff-rm[
+```scala
+def guess(target: Int): `Boolean` =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+]
+
+---
+
+## Propagating the capability
+
+.diff-add[
+```scala
+def guess(target: Int): `Print ?=> Boolean` =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+]
+
+---
+
+## The `Read` Capability
+
+```scala
+def readInput: Option[Int] =
+  try Some(readLine.toInt)
+  catch
+    case _ => None
+```
+
+---
+
+## The `Read` Capability
+
+```scala
+def readInput: Option[Int] =
+  try Some(`readLine`.toInt)
+  catch
+    case _ => None
+```
+
+---
+
+## The `Read` Capability
+
+```scala
+package read
+&#x200B;
+trait Read:
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## The `Read` Capability
+
+.diff-add[
+```scala
+package read
+&#x200B;
+trait Read:
+* `def readLine(): String`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## The `Read` Capability
+
+```scala
+package read
+&#x200B;
+trait Read:
+  def readLine(): `String`
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## The `Read` Capability
+
+.diff-add[
+```scala
+package read
+&#x200B;
+trait Read:
+  def readLine(): String
+&#x200B;
+*&#x200B;`val readLine: Read ?=> String =`
+&#x200B;
+```
+]
+
+---
+
+## The `Read` Capability
+
+.diff-add[
+```scala
+package read
+&#x200B;
+trait Read:
+  def readLine(): String
+&#x200B;
+val readLine: Read ?=> String =
+* `r ?=> r.readLine()`
+```
+]
+
+---
+
+## The `Read` Capability
+
+```scala
+def readInput: Option[Int] =
+  try Some(`readLine`.toInt)
+  catch
+    case _ => None
+```
+
+---
+
+## The `Read` Capability
+
+.diff-rm[
+```scala
+*def readInput: `Option[Int]` =
+  try Some(readLine.toInt)
+  catch
+    case _ => None
+```
+]
+
+---
+
+## The `Read` Capability
+
+.diff-add[
+```scala
+*def readInput: `Read ?=> Option[Int]` =
+  try Some(readLine.toInt)
+  catch
+    case _ => None
+```
+]
+
+---
+
+## Propagating the capability
+
+```scala
+def guess(target: Int): Print ?=> Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+
+---
+
+## Propagating the capability
+
+```scala
+def guess(target: Int): Print ?=> Boolean =
+  `readInput` match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+
+---
+
+## Propagating the capability
+
+.diff-rm[
+```scala
+*def guess(target: Int): `Print` ?=> Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+]
+
+---
+
+## Propagating the capability
+
+.diff-add[
+```scala
+*def guess(target: Int): `(Read, Print)` ?=> Boolean =
+  readInput match
+    case Some(‛target‛) => true
+&#x200B;
+    case Some(input) =>
+      if input < target then println("Too low")
+      else                   println("Too high")
+      false
+&#x200B;
+    case None =>
+      println("Not a valid number")
+      false
+```
+]
+
+---
+
+## Propagating the capability
+
+```scala
+def loop(target: Int, remaining: Int): Print ?=> Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+
+---
+
+## Propagating the capability
+
+```scala
+def loop(target: Int, remaining: Int): Print ?=> Boolean =
+  if `guess`(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+
+---
+
+## Propagating the capability
+
+.diff-rm[
+```scala
+*def loop(target: Int, remaining: Int): `Print` ?=> Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+]
+
+---
+
+## Propagating the capability
+
+.diff-add[
+```scala
+def loop(target: Int, remaining: Int): `(Read, Print)` ?=> Boolean =
+  if guess(target) then
+    println("Congratulations!")
+    true
+&#x200B;
+  else if remaining < 0 then
+    println("🫵😂")
+    false
+&#x200B;
+  else
+    if remaining == 0 then println("Last attempt")
+    else                   println(s"$remaining tries left")
+    loop(target, remaining - 1)
+```
+]
+
+---
+
+## Propagating the capability
+
+```scala
+def run: (Rand, Print) ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+
+
+---
+
+## Propagating the capability
+
+```scala
+def run: (Rand, Print) ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  `loop`(target, 2)
+```
+
+---
+
+## Propagating the capability
+
+.diff-rm[
+```scala
+*def run: `(Rand, Print)` ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## Propagating the capability
+
+.diff-add[
+```scala
+*def run: `(Read, Rand, Print)` ?=> Boolean =
+  val target = nextInt(10)
+&#x200B;
+  println("Input a value between 0 and 10:")
+  loop(target, 2)
+```
+]
+
+---
+
+## A handler for user interaction
+```scala
+package console
+&#x200B;
+trait `Console` extends Print with Read
+```
+
+---
+
+## A handler for user interaction
+```scala
+package console
+&#x200B;
+trait Console extends `Print with Read`
+```
+
+---
+
+## A handler for user interaction
+
+```scala
+def apply[A](ca: Console ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## A handler for user interaction
+
+```scala
+def apply[A](ca: `Console ?=> A`): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## A handler for user interaction
+
+```scala
+def apply[A](ca: Console ?=> A): `A` =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## A handler for user interaction
+
+.diff-add[
+```scala
+def apply[A](ca: Console ?=> A): A =
+* `val handler = new Console:`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## A handler for user interaction
+
+.diff-add[
+```scala
+def apply[A](ca: Console ?=> A): A =
+  val handler = new Console:
+*   `override def readLine() =`
+*     `Console.in.readLine`
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## A handler for user interaction
+
+.diff-add[
+```scala
+def apply[A](ca: Console ?=> A): A =
+  val handler = new Console:
+    override def readLine() =
+      Console.in.readLine
+&#x200B;
+*   `override def println(s: String) =`
+*     `Console.println(s)`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## A handler for user interaction
+
+.diff-add[
+```scala
+def apply[A](ca: Console ?=> A): A =
+  val handler = new Console:
+    override def readLine() =
+      Console.in.readLine
+&#x200B;
+    override def println(s: String) =
+      Console.println(s)
+&#x200B;
+* `ca(using handler)`
+```
+]
+
+---
+
+## A handler for user interaction
+
+```scala
+rand.system:
+  run
+```
+
+---
+
+## A handler for user interaction
+
+.diff-add[
+```scala
+rand.system:
+* `console:`
+* `  `run
+```
+]
+
+
+---
+
+## Test `Print` handler
+
+```scala
+def ignore[A](pa: Print ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Test `Print` handler
+
+.diff-add[
+```scala
+def ignore[A](pa: Print ?=> A): A =
+* `val handler = new Print:`
+*   `override def println(s: String) =`
+*     `()`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Test `Print` handler
+
+.diff-add[
+```scala
+def ignore[A](pa: Print ?=> A): A =
+  val handler = new Print:
+    override def println(s: String) =
+      ()
+&#x200B;
+* `pa(using handler)`
+```
+]
+
+---
+
+## Test `Read` handler
+
+```scala
+def const[A](s: String)(ra: Read ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Test `Read` handler
+
+```scala
+def const[A](`s: String`)(ra: Read ?=> A): A =
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Test `Read` handler
+
+.diff-add[
+```scala
+def const[A](s: String)(ra: Read ?=> A): A =
+* `val handler = new Read:`
+*   `override def readLine() =`
+*     `s`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Test `Read` handler
+
+.diff-add[
+```scala
+def const[A](s: String)(ra: Read ?=> A): A =
+  val handler = new Read:
+    override def readLine() =
+      s
+&#x200B;
+* `ra(using handler)`
+```
+]
+
+---
+
+## Testing our game
+
+```scala
+print.ignore:
+&#x200B;
+&#x200B;
+&#x200B;
+```
+
+---
+
+## Testing our game
+
+.diff-add[
+```scala
+print.ignore:
+* `rand.const(5):`
+&#x200B;
+&#x200B;
+```
+]
+
+---
+
+## Testing our game
+
+.diff-add[
+```scala
+print.ignore:
+  rand.const(5):
+*   `read.const("5"):`
+&#x200B;
+```
+]
+---
+
+## Testing our game
+
+.diff-add[
+```scala
+print.ignore:
+  rand.const(5):
+    read.const("5"):
+*     `assert(run)`
+```
+]
+
+---
+class: center, middle
+name: conclusion
+
+# In closing
+
+---
+
+## If you only remember 1 slide...
+
+Capabilities:
+
+--
+
+* are dependency injection
+
+--
+
+* allow a direct style of programming
+
+--
+
+* encode effects in types
+
+---
+
+class: center, middle
+name: questions
+
+[<img src="img/qr-code.svg" width="50%" height="50%"/>][Slides]
+
+[Nicolas Rinaudo] • [@NicolasRinaudo@functional.cafe]
+
+---
+
+## TOC
+
+* [Direct Style](#direct)
+* [Random Numbers](#rand)
+* [User Interaction](#print_read)
+
+[@NicolasRinaudo@functional.cafe]:https://functional.cafe/@NicolasRinaudo
+[Nicolas Rinaudo]:https://nrinaudo.com/
+[Slides]:https://nrinaudo.com/writing-pl/
+    </textarea>
+    <script src="js/remark.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+        var slideshow = remark.create({
+          highlightStyle: 'github',
+          highlightSpans: true,
+          highlightLines: true
+      });
+    </script>
+  </body>
+</html>
